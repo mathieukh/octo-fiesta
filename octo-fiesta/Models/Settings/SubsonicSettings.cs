@@ -80,8 +80,14 @@ public enum MusicService
     /// <summary>
     /// Yandex music service
     /// </summary>
-    Yandex
+    Yandex,
+
+    /// <summary>
+    /// Musikat music service
+    /// </summary>
+    Musikat
 }
+
 
 public class SubsonicSettings
 {
@@ -123,7 +129,7 @@ public class SubsonicSettings
     /// <summary>
     /// Music service to use (default: SquidWTF)
     /// Environment variable: MUSIC_SERVICE
-    /// Values: "Deezer", "Qobuz", "SquidWTF"
+    /// Values: "Deezer", "Qobuz", "SquidWTF", "Musikat"
     /// </summary>
     public MusicService MusicService { get; set; } = MusicService.SquidWTF;
     

@@ -10,6 +10,7 @@ using octo_fiesta.Services.Validation;
 using octo_fiesta.Services.Subsonic;
 using octo_fiesta.Services.Common;
 using octo_fiesta.Middleware;
+using octo_fiesta.Services.Musikat;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,8 @@ builder.Services.Configure<YandexSettings>(
     builder.Configuration.GetSection("Yandex"));
 builder.Services.Configure<LyricsSettings>(
     builder.Configuration.GetSection("Lyrics"));
+builder.Services.Configure<MusikatSettings>(
+    builder.Configuration.GetSection("Musikat"));
 
 // Get the configured music service from bound settings (to respect default values)
 var subsonicSettings = new SubsonicSettings();
@@ -115,6 +118,11 @@ else if (musicService == MusicService.Yandex)
     }
     builder.Services.AddSingleton<IMusicMetadataService, YandexMetadataService>();
     builder.Services.AddSingleton<IDownloadService, YandexDownloadService>();
+}
+else if (musicService == MusicService.Musikat)
+{
+    builder.Services.AddSingleton<IMusicMetadataService, DeezerMetadataService>();
+    builder.Services.AddSingleton<IDownloadService, MusikatDownloadService>();
 }
 else
 {
