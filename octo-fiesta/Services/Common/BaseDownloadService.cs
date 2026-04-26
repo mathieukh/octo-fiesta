@@ -34,7 +34,7 @@ public abstract class BaseDownloadService : IDownloadService
 
     // Small in-memory cache to avoid repeated metadata/network lookups when searching for cached files.
     // Key: "{provider}|{externalId}" -> (path or null, expiry)
-    private readonly ConcurrentDictionary<string, (string? Path, DateTime Expiry)> _metadataPathCache = new();
+    protected readonly ConcurrentDictionary<string, (string? Path, DateTime Expiry)> _metadataPathCache = new();
     private readonly ConcurrentDictionary<string, SemaphoreSlim> _metadataPathLocks = new();
     private static readonly TimeSpan MetadataCacheTtl = TimeSpan.FromMinutes(5);
     private static readonly TimeSpan MetadataCacheNegativeTtl = TimeSpan.FromMinutes(1);
@@ -430,7 +430,7 @@ public abstract class BaseDownloadService : IDownloadService
     /// <param name="triggerAlbumDownload">Whether to trigger album download in Album mode</param>
     /// <param name="forcePermanent">If true, downloads to permanent storage even in Cache mode (used for star album/playlist)</param>
     /// <param name="cancellationToken">Cancellation token</param>
-    protected async Task<string> DownloadSongInternalAsync(string externalProvider, string externalId, bool triggerAlbumDownload, bool forcePermanent = false, CancellationToken cancellationToken = default)
+    protected async virtual Task<string> DownloadSongInternalAsync(string externalProvider, string externalId, bool triggerAlbumDownload, bool forcePermanent = false, CancellationToken cancellationToken = default)
     {
         if (externalProvider != ProviderName)
         {
